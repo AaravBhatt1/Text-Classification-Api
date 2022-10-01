@@ -103,35 +103,3 @@ class SGD:
             self.learning_rate * layer .dbiases
         layer.weights += layer.wmomentum
         layer.biases += layer.bmomentum
-
-
-if False:
-    X, y = spiral_data(samples=100, classes=3)
-    one_hot_y = np.zeros((y.size, y.max() + 1))
-    one_hot_y[np.arange(y.size), y] = 1
-    dense1 = Dense(2, 64)
-    activation1 = Relu()
-    dense2 = Dense(64, 3)
-    loss_activation = SoftmaxWithCategoricalCrossEntropy()
-    optimizer = SGD(decay=1e-3, momentum=0.2)
-
-    for epoch in range(10001):
-        layer_output = dense1.forward(X)
-        layer_output = activation1.forward(layer_output)
-        layer_output = dense2.forward(layer_output)
-        loss = np.mean(loss_activation.forward(layer_output, one_hot_y))
-        predictions = np.argmax(loss_activation.softmax_outputs, axis=1)
-        accuracy = np.mean(predictions == np.argmax(one_hot_y, axis=1))
-        if epoch % 100 == 0:
-            print(f'epoch: {epoch}, ' +
-                  f'acc: {accuracy}, ' +
-                  f'loss: {loss}')
-
-        loss_activation.backward()
-        dense2.backward(loss_activation.dinputs)
-        activation1.backward(dense2.dinputs)
-        dense1.backward(activation1.dinputs)
-
-        optimizer.update_decay()
-        optimizer.update_layer(dense1)
-        optimizer.update_layer(dense2)
