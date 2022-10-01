@@ -1,7 +1,4 @@
-from argparse import ONE_OR_MORE
-from turtle import forward
 import numpy as np
-from nnfs.datasets import spiral_data
 
 
 class Dense:
