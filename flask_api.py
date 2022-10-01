@@ -16,7 +16,7 @@ def home():
 @app.route('/predict/<model_name>/<sentence>', methods=['GET'])
 def predict_text(model_name, sentence):
     response = {'Sentence': sentence,
-                'prediction': ModelPredict(model_name, sentence)}
+                'Prediction': ModelPredict(model_name, sentence)}
     return response
 
 
