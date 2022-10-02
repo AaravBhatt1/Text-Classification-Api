@@ -10,11 +10,13 @@ app = Flask(__name__)
 def home():
     return '''Welcome to the chatbot api.</br>
     Use "/create_model" to create a new chatbot by POSTing the intents.</br>
-    Use "/predict/[model_name]/[sentence]" to GET the label for a given sentence.'''
+    Use "/predict/[model_name]/[sentence]" to GET the label for a given sentence.</br>
+    Use "/predict/_/_ to POST the model name and sentence as {"name": "[model_name]", "sentence":"[sentence]"} for a prediction.'''
 
 
 @app.route('/predict/<model_name>/<sentence>', methods=['GET', 'POST'])
 def predict_text(model_name, sentence):
+    print(request.method)
     if request.method == 'GET':
         response = {'sentence': sentence,
                     'prediction': ModelPredict(model_name, sentence)}
