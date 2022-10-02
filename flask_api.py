@@ -13,10 +13,14 @@ def home():
     Use "/predict/[model_name]/[sentence]" to GET the label for a given sentence.'''
 
 
-@app.route('/predict/<model_name>/<sentence>', methods=['GET'])
+@app.route('/predict/<model_name>/<sentence>', methods=['GET', 'POST'])
 def predict_text(model_name, sentence):
-    response = {'Sentence': sentence,
-                'Prediction': ModelPredict(model_name, sentence)}
+    if request.method == 'GET':
+        response = {'sentence': sentence,
+                    'prediction': ModelPredict(model_name, sentence)}
+    elif request.method == 'POST':
+        response = {'sentence': request.get_json()['sentence'],
+                    'prediction': ModelPredict(request.get_json()['name'], request.get_json()['sentence'])}
     return response
 
 
